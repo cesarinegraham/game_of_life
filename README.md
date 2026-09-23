@@ -23,4 +23,5 @@ A customizable MATLAB implementation of **Conway's Game of Life**, the classic c
 **Patterns:**
 
 The created cell "patterns" can be categorized according to the complexity of their behavior, from simple unchanging ‘still lives’ to emulations of universal Turing machines. See the [Game of Life Lab](https://www.gameoflifelab.com/patterns) for more! Here are some examples of the more simple patterns which you can render in this simulation:
+
 ![ ](GOL_Civilizations.jpg)
