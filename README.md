@@ -1,6 +1,6 @@
 ## John Conway's Game of Life (MATLAB)
 
-This code enables the user to run the Game of Life, a cellular automaton devised by the mathematician John Horton Conway in 1970. 
+This MATLAB code enables the user to run the Game of Life, a cellular automaton devised by the mathematician John Horton Conway in 1970. 
 
 There are four simple rules to this game:
   1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
