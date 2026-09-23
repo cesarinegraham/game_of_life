@@ -11,7 +11,7 @@ RULES OF CONWAYS GAME OF LIFE
 clc
 clear
 
-%redefining variables that are defined in other functions to fix scope issues
+% variables
 dataLog = "";
 cellDeathCounter = 0;
 cellBirthCounter = 0;
@@ -19,7 +19,7 @@ cellBirthCounter = 0;
 fprintf("<strong>Start Time</strong> : %s \n", string(datetime('now','Timezone', 'local', 'Format', 'd-MMM-y HH:mm:ss:SS')));
 dataLog = dataLog + "\nStart Time : " + timeStamping();
 
-%skipping the menu option
+% option to skip main menu
 message = "Would you like to skip the intro to this game?";
 optionsZero = ["Yes" "No"];
 choicezero = menu(message, optionsZero);
@@ -35,7 +35,7 @@ choicezero = menu(message, optionsZero);
         fprintf ("You chose to skip the intro.")
     end
 
-% The Grid Size Choice Menu
+% grid size choice menu
 message = "What size grid would you like to run the game on?";
 optionsFirst = ["150 x 150" "100 x 100" "50 x 50"];
 choiceFirst = menu(message,optionsFirst);
@@ -50,7 +50,7 @@ choiceFirst = menu(message,optionsFirst);
         lengthY = 50;
     end
 
-%color of the grid menu option
+% color of the grid menu option
 message = "What color grid would you like to run the game on?";
 optionsSecond = ["Winter" "Summer" "Spring" "Autumn" "Parula" "Copper" "Bone"];
 choiceSecond = menu(message,optionsSecond);
@@ -70,7 +70,7 @@ choiceSecond = menu(message,optionsSecond);
         color = colormap(flipud(bone));
     end
 
-%the speed of the simulation menu
+% speed of the simulation menu
 message = "What speed would you like the game to run at?";
 optionsThird = ["Slow" "Medium" "Fast (Recommended)"];
 choiceThird = menu(message,optionsThird);
@@ -82,52 +82,51 @@ choiceThird = menu(message,optionsThird);
         setSpeed = 0.001;
     end
 
-% Initial Cell for Random Pattern
+% initial cell birth 
 cells = zeros(lengthX, lengthY);
 
-%setting up the extinction button
+% extinction button
 c = uicontrol;
 c.String = 'EXTINCTION';
 c.Value = 1;
 c.Callback = "c.Value =0;"; %Callback can actually run lines of code.
 
-%setting up the subplots for the figure and the image
+% subplots for the figure and ref image
 RGB = imread('GOL_Civilizations.jpg');
 subplot(1,2,1)
 
-% Generate random life cells
+% generating random life cells
 nInitial = numel(cells) / 10;
 initialCells = randperm(numel(cells), nInitial);   
 cells(initialCells) = 1;
 showCells(cells,color,setSpeed);
 
-%subplotting the reference image next to the game so the user can view
-%both of them at the same time
+% subplotting the ref image next to the game
 subplot(1,2,2)
 imshow(RGB);
 hold on; %this is so the image is not overwritten
 
-% Set up of the While Loop to enable Continuous Animation
+% continuous animation
 while (c.Value)
 subplot(1,2,1)   %stating this again so it will only update the figure on the left
-    % Creation of the next generation
+    % creation of the next generation
     [cellsNew, dataLog, cellDeathCounter, cellBirthCounter] = findNeighbor(cells, dataLog, cellDeathCounter, cellBirthCounter);        
-    % Update as per the Rules
+    % Update as per the rules
     cells = cellsNew;
-    % Visualization of the Cells
+    % visualization of the Cells
     showCells(cells,color,setSpeed); 
 end
 
 close all   % close the figure. 
 
-%file I/O for the time logging
+% time logging
 dataLog= sprintf(dataLog);  
 fprintf("\n<strong>Start Time of the Program</strong> : %s", dataLog);
 stringDateTime = timeStamping();
-%for the user to see the end time right away
+% time display
 fprintf("\n<strong>End Time of the Program : </strong>%s", stringDateTime);
 
-%adding data to the time logging sheet text file
+% adding data to the time logging sheet text file
 dataLog = dataLog + "\n\nTotal Cell Deaths : " + cellDeathCounter;
 dataLog = dataLog + "\nTotal Cell Births : " + cellBirthCounter;
 dataLog = dataLog + "\n\nEnd Time of the Program : " + stringDateTime +"\n\n _____________________________ \n";
@@ -136,22 +135,21 @@ fileId = fopen("GOL_Log.txt", 'a');
 fprintf(fileId, "%s\n",dataLog);
 fclose(fileId);
 
-%telling the user how many cell died and how many were birthed
+% printing outputs
 fprintf("\n<strong>Total Cell Deaths</strong> : %d", cellDeathCounter);
 fprintf("\n<strong>Total Cell Births</strong> : %d", cellBirthCounter);
-
-%telling the user that the data is in the text file
+% data is in the text file
 fprintf("\n\n<strong>The data has been compiled into GOL_Log.txt</strong>\n");
 
-%this is for the time-stamping done within the program
+% time-stamping
 function stringDateTime = timeStamping()
 timeStamp = datetime('now','Timezone', 'local', 'Format', 'd-MMM-y HH:mm:ss:SS');
 stringDateTime = string(timeStamp);
 end
 
-%this is to implement the rules of the game into the code
+% implement the rules of the game into the code
 function [cellsNew, dataLog, cellDeathCounter, cellBirthCounter] = findNeighbor(cells, dataLog, cellDeathCounter, cellBirthCounter)  
-%Creating variables for the cell counters
+% creating variables for the cell counters
     cellDeathCounter = 0;
     cellBirthCounter = 0;
 
@@ -217,7 +215,7 @@ for y_0 = 2:y+1
 end
 end
 
-%This is for the display of the game
+% display of the game
 function showCells(cells,color,setSpeed)
 imagesc(cells); 
 colormap(flipud(color)); axis equal; axis off; drawnow 
